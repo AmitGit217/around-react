@@ -1,0 +1,10 @@
+import "../blocks/header.css";
+import logo from "../images/Vector.svg";
+export default function Header(props) {
+  return (
+    <header className="header">
+      <img className="header__vector" src={logo} alt="logo" />
+      <span className="header__line"></span>
+    </header>
+  );
+}
