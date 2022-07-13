@@ -136,6 +136,7 @@
 }
 
 .popup_show {
+  transition: 0.3s;
   visibility: visible;
   opacity: 1;
 }

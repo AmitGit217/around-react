@@ -3,8 +3,6 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
-import Card from "./Card";
-import { api } from "./Api";
 import ImagePopup from "./ImagePopup";
 
 function App() {
@@ -12,38 +10,48 @@ function App() {
     React.useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
-  const [cards, setCards] = React.useState([]);
-  const [selectedCard, setSelectedCard] = React.useState("");
+
+  const [selectedCard, setSelectedCard] = React.useState({
+    name: "",
+    link: "",
+  });
+  const [imagePopupOpen, setImagePopupOpen] = React.useState(false);
   function closeAllPopups() {
     setEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
+    setRemoveCardOpen(false);
+    setImagePopupOpen(false);
   }
-  function closeImagePopup() {
-    setSelectedCard("");
-  }
+
   function openEditProfile() {
-    setEditProfilePopupOpen(!isEditProfilePopupOpen);
+    setEditProfilePopupOpen(true);
   }
   function openAddPlacePopup() {
-    setAddPlacePopupOpen(!isAddPlacePopupOpen);
+    setAddPlacePopupOpen(true);
   }
   function openEditAvatarPicture() {
-    setEditAvatarPopupOpen(!isEditAvatarPopupOpen);
+    setEditAvatarPopupOpen(true);
   }
-  function handleCardClick() {
-    setSelectedCard(() => {
-      return this;
-    });
+  function handleCardClick(card) {
+    setImagePopupOpen(true);
+    setSelectedCard({ name: card.name, link: card.link });
   }
-  React.useEffect(() => {
-    api.getInitialCards().then((res) => {
-      setCards(res);
-    });
-  }, []);
+
   return (
     <>
-      <ImagePopup card={selectedCard} onClose={closeImagePopup} />
+      <ImagePopup
+        card={selectedCard}
+        onClose={closeAllPopups}
+        isOpen={imagePopupOpen}
+      />
+      {/* <PopupWithForm
+        name="confirm"
+        title="Are you sure?"
+        submitText="Yes"
+        onClose={closeAllPopups}
+        isOpen={isRemoveCardOpen}
+      /> */}
       <PopupWithForm
         name="editAvatar"
         title="Change profile picture"
@@ -130,20 +138,8 @@ function App() {
         onAddPlaceClick={openAddPlacePopup}
         onEditProfileClick={openEditProfile}
         onEditAvatarClick={openEditAvatarPicture}
-      >
-        {cards.map((item) => {
-          return (
-            <Card
-              key={item._id}
-              link={item.link}
-              caption={item.name}
-              likeCounter={item.likes.length}
-              onCardClick={handleCardClick}
-            />
-          );
-        })}
-      </Main>
-
+        onCardClick={handleCardClick}
+      />
       <Footer />
     </>
   );

@@ -1,10 +1,18 @@
 import React from "react";
 import "../blocks/main.css";
 import { api } from "./Api";
+import Card from "./Card";
 export default function Main(props) {
   const [userName, setUserName] = React.useState("");
   const [userDescription, setUserDescription] = React.useState("");
   const [userAvatar, setUserAvatar] = React.useState("");
+  const [cards, setCards] = React.useState([]);
+  React.useEffect(() => {
+    api.getInitialCards().then((res) => {
+      setCards(res);
+    });
+  }, []);
+
   React.useEffect(() => {
     api
       .getUserInfo()
@@ -46,7 +54,21 @@ export default function Main(props) {
           onClick={props.onAddPlaceClick}
         ></button>
       </section>
-      <section className="elements">{props.children}</section>
+      <section className="elements">
+        {cards.map((card) => {
+          return (
+            <Card
+              card={card}
+              key={card._id}
+              link={card.link}
+              caption={card.name}
+              likeCounter={card.likes.length}
+              onCardClick={props.onCardClick}
+              // removeCardPopup={handleRemoveCard}
+            />
+          );
+        })}
+      </section>
     </main>
   );
 }
