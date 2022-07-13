@@ -3,9 +3,8 @@ export default function Card(props) {
   function handleClick() {
     props.onCardClick(props.card);
   }
-  function handleRemoveCard(e) {
-    e.stopPropagation();
-    setRemoveCardOpen(true);
+  function handleRemoveModal() {
+    props.onDeleteClick(props.card);
   }
   return (
     <div className="card">
@@ -17,7 +16,7 @@ export default function Card(props) {
       />
       <button
         className="card__removeButton"
-        onClick={handleRemoveCard}
+        onClick={handleRemoveModal}
       ></button>
       <div className="card__social-brand">
         <h2 className="card__caption">{props.caption}</h2>

@@ -27,11 +27,7 @@ export default function Main(props) {
   return (
     <main className="main">
       <section className="profile">
-        <img
-          className="profile__avatar-image"
-          src={userAvatar}
-          alt="profile-image"
-        />
+        <img className="profile__avatar-image" src={userAvatar} alt="profile" />
         <button
           className="profile__overlay"
           onClick={props.onEditAvatarClick}
@@ -64,7 +60,7 @@ export default function Main(props) {
               caption={card.name}
               likeCounter={card.likes.length}
               onCardClick={props.onCardClick}
-              // removeCardPopup={handleRemoveCard}
+              onDeleteClick={props.onDeleteClick}
             />
           );
         })}

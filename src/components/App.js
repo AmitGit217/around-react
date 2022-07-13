@@ -10,20 +10,19 @@ function App() {
     React.useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
-
   const [selectedCard, setSelectedCard] = React.useState({
     name: "",
     link: "",
   });
+  const [isRemoveCardOpen, setRemoveCardOpen] = React.useState(false);
   const [imagePopupOpen, setImagePopupOpen] = React.useState(false);
   function closeAllPopups() {
     setEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
-    setRemoveCardOpen(false);
     setImagePopupOpen(false);
+    setRemoveCardOpen(false);
   }
-
   function openEditProfile() {
     setEditProfilePopupOpen(true);
   }
@@ -33,11 +32,14 @@ function App() {
   function openEditAvatarPicture() {
     setEditAvatarPopupOpen(true);
   }
+  function openRemovePopup(card) {
+    setRemoveCardOpen(true);
+    return card;
+  }
   function handleCardClick(card) {
     setImagePopupOpen(true);
     setSelectedCard({ name: card.name, link: card.link });
   }
-
   return (
     <>
       <ImagePopup
@@ -45,13 +47,13 @@ function App() {
         onClose={closeAllPopups}
         isOpen={imagePopupOpen}
       />
-      {/* <PopupWithForm
+      <PopupWithForm
         name="confirm"
         title="Are you sure?"
         submitText="Yes"
         onClose={closeAllPopups}
         isOpen={isRemoveCardOpen}
-      /> */}
+      />
       <PopupWithForm
         name="editAvatar"
         title="Change profile picture"
@@ -70,7 +72,6 @@ function App() {
           <span className="popup__input-error url-input-error"></span>
         </label>
       </PopupWithForm>
-
       <PopupWithForm
         name="editProfileText"
         title="Edit profile"
@@ -139,6 +140,7 @@ function App() {
         onEditProfileClick={openEditProfile}
         onEditAvatarClick={openEditAvatarPicture}
         onCardClick={handleCardClick}
+        onDeleteClick={openRemovePopup}
       />
       <Footer />
     </>
