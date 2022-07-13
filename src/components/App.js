@@ -3,16 +3,24 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
+import Card from "./Card";
+import { api } from "./Api";
+import ImagePopup from "./ImagePopup";
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] =
     React.useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
+  const [cards, setCards] = React.useState([]);
+  const [selectedCard, setSelectedCard] = React.useState("");
   function closeAllPopups() {
     setEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
+  }
+  function closeImagePopup() {
+    setSelectedCard("");
   }
   function openEditProfile() {
     setEditProfilePopupOpen(!isEditProfilePopupOpen);
@@ -23,9 +31,20 @@ function App() {
   function openEditAvatarPicture() {
     setEditAvatarPopupOpen(!isEditAvatarPopupOpen);
   }
+  function handleCardClick() {
+    setSelectedCard(() => {
+      return this;
+    });
+  }
+  React.useEffect(() => {
+    api.getInitialCards().then((res) => {
+      setCards(res);
+    });
+  }, []);
 
   return (
     <>
+      <ImagePopup card={selectedCard} onClose={closeImagePopup} />
       <PopupWithForm
         name="editAvatar"
         title="Change profile picture"
@@ -107,34 +126,26 @@ function App() {
           <span className="popup__input-error url-input-error"></span>
         </label>
       </PopupWithForm>
-
-      <div className="popup popup_image">
-        <div className="popup__wrapper">
-          <button className="popup__close-button popup__close-button_image"></button>
-          <img className="popup__image" src=" " alt="placeHolder" />
-          <p className="popup__caption"></p>
-        </div>
-      </div>
       <Header />
       <Main
         onAddPlaceClick={openAddPlacePopup}
         onEditProfileClick={openEditProfile}
         onEditAvatarClick={openEditAvatarPicture}
-      />
+      >
+        {cards.map((item) => {
+          return (
+            <Card
+              key={item._id}
+              link={item.link}
+              caption={item.name}
+              likeCounter={item.likes.length}
+              onCardClick={handleCardClick}
+            />
+          );
+        })}
+      </Main>
+
       <Footer />
-      <template id="card-template">
-        <div className="card">
-          <img className="card__image" src="placeHolder" alt="placeHolder" />
-          <button className="card__removeButton"></button>
-          <div className="card__social-brand">
-            <h2 className="card__caption"></h2>
-            <div className="card__like">
-              <button className="card__like-button" type="button"></button>
-              <p className="card__like-counter"></p>
-            </div>
-          </div>
-        </div>
-      </template>
     </>
   );
 }

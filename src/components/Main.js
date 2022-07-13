@@ -46,7 +46,7 @@ export default function Main(props) {
           onClick={props.onAddPlaceClick}
         ></button>
       </section>
-      <section className="elements"></section>
+      <section className="elements">{props.children}</section>
     </main>
   );
 }
