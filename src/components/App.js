@@ -7,18 +7,19 @@ import PopupWithForm from "./PopupWithForm";
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] =
     React.useState(false);
-  const [isEditAvatarPopupOpen, setEditAvatarPopup] = React.useState(false);
+  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
 
   function closeAllPopups() {
     setEditProfilePopupOpen(false);
-    setEditAvatarPopup(false);
+    setAddPlacePopupOpen(false);
   }
   function openEditProfile() {
     setEditProfilePopupOpen(!isEditProfilePopupOpen);
   }
-  function openEditAvatar() {
-    setEditAvatarPopup(!isEditAvatarPopupOpen);
+  function openAddPlacePopup() {
+    setAddPlacePopupOpen(!isAddPlacePopupOpen);
   }
+
   return (
     <>
       <body className="page">
@@ -56,83 +57,70 @@ function App() {
             </form>
           </div>
         </div>
-        <PopupWithForm
-          name="confirmDelete"
-          title="Are you sure?"
-          isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-        />
 
         <PopupWithForm
-          fullForm
           name="editProfileText"
           title="Edit profile"
-          //First input props//
-          firstInputName="name"
-          firstInputType="text"
-          firstInputPlaceHolder="Full Name"
-          firstInputMinLength="2"
-          firstInputMaxLength="40"
-          //Second input props//
-          secondInputName="job"
-          secondInputType="text"
-          secondInputPlaceHolder="Description"
-          secondInputMinLength="2"
-          secondInputMaxLength="200"
-          saveButtonText="Save"
+          submitText="Save"
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-        />
+        >
+          <label className="popup__field">
+            <input
+              className="popup__input"
+              name="name"
+              type="text"
+              placeholder="Full Name"
+              minLength={2}
+              maxLength={40}
+              required
+            />
+            <span className="popup__input-error name-input-error"></span>
+          </label>
+          <label className="popup__field">
+            <input
+              className="popup__input"
+              name="job"
+              type="text"
+              placeholder="Description"
+              minLength={2}
+              maxLength={200}
+              required
+            />
+            <span className="popup__input-error job-input-error"></span>
+          </label>
+        </PopupWithForm>
+        <PopupWithForm
+          name="addImage"
+          title="New place"
+          submitText="Create"
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+        >
+          <label className="popup__field">
+            <input
+              className="popup__input"
+              type="text"
+              name="caption"
+              placeholder="Title"
+              minLength="1"
+              maxLength="30"
+              required
+            />
+            <span className="popup__input-error caption-input-error"></span>
+          </label>
+          <label className="popup__field">
+            <input
+              className="popup__input"
+              type="url"
+              name="image"
+              placeholder="Image Link"
+              required
+            />
+            <span className="popup__input-error url-input-error"></span>
+          </label>
+        </PopupWithForm>
 
-        <div className="popup" id="addImagePopup">
-          <div className="popup__wrapper">
-            <button
-              className="popup__close-button popup__close-button_form"
-              type="button"
-              id="add-popup__close-button popup__close-button_form"
-            ></button>
-            <form
-              className="popup__form form"
-              id="addImagePopup__form"
-              name="register"
-              noValidate
-            >
-              <h2 className="popup__title">New place</h2>
-              <label className="popup__field">
-                <input
-                  className="popup__input popup__input_addPhoto_caption"
-                  type="text"
-                  name="caption"
-                  id="caption-input"
-                  placeholder="Title"
-                  minLength="1"
-                  maxLength="30"
-                  required
-                />
-                <span className="popup__input-error caption-input-error"></span>
-              </label>
-              <label className="popup__field">
-                <input
-                  className="popup__input popup__input_addPhoto_ImageURL"
-                  type="url"
-                  name="image"
-                  placeholder="Image Link"
-                  id="url-input"
-                  required
-                />
-                <span className="popup__input-error url-input-error"></span>
-              </label>
-              <button
-                id="newImage"
-                className="popup__submit-button"
-                type="submit"
-                name="Create"
-              >
-                Create
-              </button>
-            </form>
-          </div>
-        </div>
         <div className="popup popup_image">
           <div className="popup__wrapper">
             <button className="popup__close-button popup__close-button_image"></button>
@@ -142,8 +130,8 @@ function App() {
         </div>
         <Header />
         <Main
+          onAddPlaceClick={openAddPlacePopup}
           onEditProfileClick={openEditProfile}
-          onEditAvatarClick={openEditAvatar}
         />
         <Footer />
         <template id="card-template">

@@ -48,7 +48,7 @@
 .popup__form_profile-image {
   height: 15px;
 }
-.popup__closeButton {
+.popup__close-button {
   height: 32px;
   width: 32px;
   position: absolute;
@@ -105,7 +105,7 @@
   margin-bottom: 0;
 }
 
-.popup__submit-button {
+.popup__submit {
   align-self: center;
   margin-bottom: 30px;
   width: 358px;
@@ -124,7 +124,7 @@
   padding: 0;
   transition: 0.3s;
 }
-.popup__submit-button:hover {
+.popup__submit:hover {
   opacity: 0.8;
 }
 .popup__submit-button_inactive {
@@ -203,7 +203,7 @@
   .popup__input:nth-last-child(2) {
     margin-bottom: 0;
   }
-  .popup__submit-button {
+  .popup__submit {
     position: absolute;
     width: 238px;
     height: 46px;

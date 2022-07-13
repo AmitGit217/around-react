@@ -9,10 +9,7 @@ export default function Main(props) {
           src={profileImage}
           alt="profile-image"
         />
-        <button
-          className="profile__overlay"
-          onClick={props.onEditAvatarClick}
-        ></button>
+        <button className="profile__overlay"></button>
         <div className="profile__info">
           <div className="profile__top-info">
             <h1 className="profile__name">Amit</h1>
@@ -28,7 +25,7 @@ export default function Main(props) {
         <button
           className="profile__add-button"
           type="button"
-          // onClick={handleAddPlaceClick}
+          onClick={props.onAddPlaceClick}
         ></button>
       </section>
       <section className="elements"></section>
