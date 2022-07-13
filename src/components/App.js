@@ -41,7 +41,6 @@ function App() {
       setCards(res);
     });
   }, []);
-
   return (
     <>
       <ImagePopup card={selectedCard} onClose={closeImagePopup} />
