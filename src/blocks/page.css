@@ -1,8 +1,7 @@
-html {
-  background-color: black;
-}
 .page {
   background-color: black;
+}
+.page__content {
   position: relative;
   margin: 0 auto;
   padding: 0;
