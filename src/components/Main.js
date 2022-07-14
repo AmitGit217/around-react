@@ -4,9 +4,11 @@ import { api } from "../utilis/Api";
 import Card from "./Card";
 import { useEffect, useState } from "react";
 export default function Main(props) {
-  const [userName, setUserName] = useState("");
-  const [userDescription, setUserDescription] = useState("");
-  const [userAvatar, setUserAvatar] = useState("");
+  const [user, setUser] = useState({
+    name: "",
+    about: "",
+    avatar: "",
+  });
   const [cards, setCards] = useState([]);
   useEffect(() => {
     api
@@ -21,9 +23,13 @@ export default function Main(props) {
     api
       .getUserInfo()
       .then((res) => {
-        setUserName(res.name);
-        setUserDescription(res.about);
-        setUserAvatar(res.avatar);
+        setUser(() => {
+          return {
+            name: res.name,
+            about: res.about,
+            avatar: res.avatar,
+          };
+        });
       })
       .catch((err) => console.log(err));
   }, []);
@@ -31,14 +37,18 @@ export default function Main(props) {
   return (
     <main className="main">
       <section className="profile">
-        <img className="profile__avatar-image" src={userAvatar} alt="profile" />
+        <img
+          className="profile__avatar-image"
+          src={user.avatar}
+          alt="profile"
+        />
         <button
           className="profile__overlay"
           onClick={props.onEditAvatarClick}
         ></button>
         <div className="profile__info">
           <div className="profile__top-info">
-            <h1 className="profile__name">{userName}</h1>
+            <h1 className="profile__name">{user.name}</h1>
             <button
               onClick={props.onEditProfileClick}
               className="profile__edit-button"
@@ -46,7 +56,7 @@ export default function Main(props) {
               id="profilePopup__edit-button"
             ></button>
           </div>
-          <p className="profile__description">{userDescription}</p>
+          <p className="profile__description">{user.about}</p>
         </div>
         <button
           className="profile__add-button"
