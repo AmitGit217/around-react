@@ -1,16 +1,23 @@
 import React from "react";
-export default function Card(props) {
+export default function Card({
+  card,
+  link,
+  caption,
+  likeCounter,
+  onCardClick,
+  onDeleteClick,
+}) {
   function handleClick() {
-    props.onCardClick(props.card);
+    onCardClick(card);
   }
   function handleRemoveModal() {
-    props.onDeleteClick(props.card);
+    onDeleteClick(card);
   }
   return (
     <div className="card">
       <img
         className="card__image"
-        src={props.link}
+        src={link}
         alt="placeHolder"
         onClick={handleClick}
       />
@@ -19,10 +26,10 @@ export default function Card(props) {
         onClick={handleRemoveModal}
       ></button>
       <div className="card__social-brand">
-        <h2 className="card__caption">{props.caption}</h2>
+        <h2 className="card__caption">{caption}</h2>
         <div className="card__like">
           <button className="card__like-button" type="button"></button>
-          <p className="card__like-counter">{props.likeCounter}</p>
+          <p className="card__like-counter">{likeCounter}</p>
         </div>
       </div>
     </div>

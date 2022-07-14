@@ -15,12 +15,12 @@ function App() {
     link: "",
   });
   const [isRemoveCardOpen, setRemoveCardOpen] = useState(false);
-  const [imagePopupOpen, setImagePopupOpen] = useState(false);
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   function closeAllPopups() {
     setEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
-    setImagePopupOpen(false);
+    setIsImagePopupOpen(false);
     setRemoveCardOpen(false);
   }
   function openEditProfile() {
@@ -37,7 +37,7 @@ function App() {
     return card;
   }
   function handleCardClick(card) {
-    setImagePopupOpen(true);
+    setIsImagePopupOpen(true);
     setSelectedCard({ name: card.name, link: card.link });
   }
   return (
@@ -45,7 +45,7 @@ function App() {
       <ImagePopup
         card={selectedCard}
         onClose={closeAllPopups}
-        isOpen={imagePopupOpen}
+        isOpen={isImagePopupOpen}
       />
       <PopupWithForm
         name="confirm"
