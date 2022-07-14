@@ -1,6 +1,6 @@
 import React from "react";
 import "../blocks/main.css";
-import { api } from "./Api";
+import { api } from "../utilis/Api";
 import Card from "./Card";
 export default function Main(props) {
   const [userName, setUserName] = React.useState("");
