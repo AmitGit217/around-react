@@ -6,7 +6,7 @@ export default function ImagePopup(props) {
           <button
             className="popup__close-button popup__close-button_image"
             onClick={props.onClose}
-          ></button>
+          />
           <img
             className="popup__image"
             src={`${props.card.link}`}

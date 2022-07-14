@@ -33,7 +33,6 @@ export default function Main(props) {
       })
       .catch((err) => console.log(err));
   }, []);
-
   return (
     <main className="main">
       <section className="profile">
@@ -45,7 +44,7 @@ export default function Main(props) {
         <button
           className="profile__overlay"
           onClick={props.onEditAvatarClick}
-        ></button>
+        />
         <div className="profile__info">
           <div className="profile__top-info">
             <h1 className="profile__name">{user.name}</h1>
@@ -54,7 +53,7 @@ export default function Main(props) {
               className="profile__edit-button"
               type="button"
               id="profilePopup__edit-button"
-            ></button>
+            />
           </div>
           <p className="profile__description">{user.about}</p>
         </div>
@@ -62,7 +61,7 @@ export default function Main(props) {
           className="profile__add-button"
           type="button"
           onClick={props.onAddPlaceClick}
-        ></button>
+        />
       </section>
       <section className="elements">
         {cards.map((card) => {

@@ -22,14 +22,11 @@ export default function Card({
         alt="placeHolder"
         onClick={handleClick}
       />
-      <button
-        className="card__removeButton"
-        onClick={handleRemoveModal}
-      ></button>
+      <button className="card__removeButton" onClick={handleRemoveModal} />
       <div className="card__social-brand">
         <h2 className="card__caption">{caption}</h2>
         <div className="card__like">
-          <button className="card__like-button" type="button"></button>
+          <button className="card__like-button" type="button" />
           <p className="card__like-counter">{likeCounter}</p>
         </div>
       </div>
