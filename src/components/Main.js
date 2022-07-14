@@ -8,9 +8,12 @@ export default function Main(props) {
   const [userAvatar, setUserAvatar] = React.useState("");
   const [cards, setCards] = React.useState([]);
   React.useEffect(() => {
-    api.getInitialCards().then((res) => {
-      setCards(res);
-    });
+    api
+      .getInitialCards()
+      .then((res) => {
+        setCards(res);
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   React.useEffect(() => {
