@@ -24,3 +24,5 @@
 - ES6 Object-Oriented-Programming
 - BEM Methodology inside a component
 - Working with RESTful api
+
+### - - - [Show me the project](https://amitgit217.github.io/around-react/) - - -
