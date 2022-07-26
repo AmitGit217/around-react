@@ -48,6 +48,15 @@ class Api {
       }),
     });
   }
+  updateAvatarImage({ avatar }) {
+    return this._customFetch(`${this.baseUrl}/users/me/avatar`, {
+      headers: this.headers,
+      method: "PATCH",
+      body: JSON.stringify({
+        avatar,
+      }),
+    });
+  }
 }
 export const api = new Api({
   baseUrl: "https://around.nomoreparties.co/v1/cohort-3-en",

@@ -9,7 +9,7 @@ import { api } from "../utilis/Api";
 
 export default function Main(props) {
   const [cards, setCards] = useState([]);
-  const { name, avatar, about } = useContext(CurrentUserContext);
+  const { name, about, avatar } = useContext(CurrentUserContext);
   const currentUser = useContext(CurrentUserContext);
 
   function handleCardLike(card) {
@@ -45,11 +45,12 @@ export default function Main(props) {
       })
       .catch((err) => console.log(err));
   }, []);
+
   return (
     <CardContext.Provider value={cards}>
       <main className="main">
         <section className="profile">
-          <img className="profile__avatar-image" src={avatar} alt="profile" />
+          <img className="profile__avatar-image" alt="profile" src={avatar} />
           <button
             className="profile__overlay"
             onClick={props.onEditAvatarClick}
