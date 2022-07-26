@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { api } from "../utilis/Api";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
+import CardContext from "../contexts/CardContext";
+import CurrentUserContext from "../contexts/CurrentUserContext";
 
 function App() {
+  const [currentUser, setCurrentUser] = useState({
+    name: "",
+    about: "",
+    avatar: "",
+  });
+  const [cards, setCards] = useState([]);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
@@ -39,6 +48,28 @@ function App() {
     setIsImagePopupOpen(true);
     setSelectedCard({ name: card.name, link: card.link });
   }
+  useEffect(() => {
+    api
+      .getUserInfo()
+      .then((res) => {
+        setCurrentUser(() => {
+          return {
+            name: res.name,
+            about: res.about,
+            avatar: res.avatar,
+          };
+        });
+      })
+      .catch((err) => console.log(err));
+  }, []);
+  useEffect(() => {
+    api
+      .getInitialCards()
+      .then((res) => {
+        setCards(res);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <>
       <ImagePopup
@@ -134,13 +165,17 @@ function App() {
         </label>
       </PopupWithForm>
       <Header />
-      <Main
-        onAddPlaceClick={openAddPlacePopup}
-        onEditProfileClick={openEditProfile}
-        onEditAvatarClick={openEditAvatarPicture}
-        onCardClick={handleCardClick}
-        onDeleteClick={openRemovePopup}
-      />
+      <CurrentUserContext.Provider value={currentUser}>
+        <CardContext.Provider value={cards}>
+          <Main
+            onAddPlaceClick={openAddPlacePopup}
+            onEditProfileClick={openEditProfile}
+            onEditAvatarClick={openEditAvatarPicture}
+            onCardClick={handleCardClick}
+            onDeleteClick={openRemovePopup}
+          />
+        </CardContext.Provider>
+      </CurrentUserContext.Provider>
       <Footer />
     </>
   );

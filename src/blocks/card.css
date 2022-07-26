@@ -26,7 +26,6 @@
 .card__like {
   display: flex;
   flex-direction: column;
-
   justify-content: center;
 }
 .card__like-counter {
@@ -75,6 +74,10 @@
   border: none;
   cursor: pointer;
   transition: 0.3s;
+}
+.card__removeButton_hidden {
+  opacity: 0;
+  visibility: hidden;
 }
 .card__removeButton:hover {
   opacity: 0.6;
