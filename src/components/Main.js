@@ -11,6 +11,7 @@ export default function Main(props) {
   const [cards, setCards] = useState([]);
   const { name, avatar, about } = useContext(CurrentUserContext);
   const currentUser = useContext(CurrentUserContext);
+
   function handleCardLike(card) {
     const isLiked = card.likes.some((user) => user._id === currentUser._id);
     api

@@ -10,7 +10,7 @@ export default function Card({
   name,
   onLike,
 }) {
-  const cards = useContext(CardContext);
+  // const cards = useContext(CardContext);
   const currentUser = useContext(CurrentUserContext);
   function handleClick() {
     onCardClick(card);

@@ -6,6 +6,7 @@ import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import CurrentUserContext from "../contexts/CurrentUserContext";
+import EditProfilePopup from "./EditProfilePopup";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -51,102 +52,83 @@ function App() {
       .catch((err) => console.log(err));
   }, []);
 
+  function handleUserUpdate({ name, about }) {
+    api.setUserInfo({ name, about }).then((res) => {
+      setCurrentUser(res);
+      closeAllPopups();
+    });
+  }
+
   return (
     <>
-      <ImagePopup
-        card={selectedCard}
-        onClose={closeAllPopups}
-        isOpen={isImagePopupOpen}
-      />
-      {/* <PopupWithForm
+      <CurrentUserContext.Provider value={currentUser}>
+        <ImagePopup
+          card={selectedCard}
+          onClose={closeAllPopups}
+          isOpen={isImagePopupOpen}
+        />
+        {/* <PopupWithForm
         name="confirm"
         title="Are you sure?"
         submitText="Yes"
         onClose={closeAllPopups}
         isOpen={isRemoveCardOpen}
       /> */}
-      <PopupWithForm
-        name="editAvatar"
-        title="Change profile picture"
-        submitText="Save"
-        isOpen={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}
-      >
-        <label className="popup__field">
-          <input
-            className="popup__input"
-            type="url"
-            name="url-input"
-            placeholder="Image Link"
-            required
-          />
-          <span className="popup__input-error url-input-error"></span>
-        </label>
-      </PopupWithForm>
-      <PopupWithForm
-        name="editProfileText"
-        title="Edit profile"
-        submitText="Save"
-        isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
-      >
-        <label className="popup__field">
-          <input
-            className="popup__input"
-            name="name"
-            type="text"
-            placeholder="Full Name"
-            minLength={2}
-            maxLength={40}
-            required
-          />
-          <span className="popup__input-error name-input-error"></span>
-        </label>
-        <label className="popup__field">
-          <input
-            className="popup__input"
-            name="job"
-            type="text"
-            placeholder="Description"
-            minLength={2}
-            maxLength={200}
-            required
-          />
-          <span className="popup__input-error job-input-error"></span>
-        </label>
-      </PopupWithForm>
-      <PopupWithForm
-        name="addImage"
-        title="New place"
-        submitText="Create"
-        isOpen={isAddPlacePopupOpen}
-        onClose={closeAllPopups}
-      >
-        <label className="popup__field">
-          <input
-            className="popup__input"
-            type="text"
-            name="caption"
-            placeholder="Title"
-            minLength="1"
-            maxLength="30"
-            required
-          />
-          <span className="popup__input-error caption-input-error"></span>
-        </label>
-        <label className="popup__field">
-          <input
-            className="popup__input"
-            type="url"
-            name="image"
-            placeholder="Image Link"
-            required
-          />
-          <span className="popup__input-error url-input-error"></span>
-        </label>
-      </PopupWithForm>
-      <Header />
-      <CurrentUserContext.Provider value={currentUser}>
+        <PopupWithForm
+          name="editAvatar"
+          title="Change profile picture"
+          submitText="Save"
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+        >
+          <label className="popup__field">
+            <input
+              className="popup__input"
+              type="url"
+              name="url-input"
+              placeholder="Image Link"
+              required
+            />
+            <span className="popup__input-error url-input-error"></span>
+          </label>
+        </PopupWithForm>
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUserUpdate={handleUserUpdate}
+        />
+        <PopupWithForm
+          name="addImage"
+          title="New place"
+          submitText="Create"
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+        >
+          <label className="popup__field">
+            <input
+              className="popup__input"
+              type="text"
+              name="caption"
+              placeholder="Title"
+              minLength="1"
+              maxLength="30"
+              required
+            />
+            <span className="popup__input-error caption-input-error"></span>
+          </label>
+          <label className="popup__field">
+            <input
+              className="popup__input"
+              type="url"
+              name="image"
+              placeholder="Image Link"
+              required
+            />
+            <span className="popup__input-error url-input-error"></span>
+          </label>
+        </PopupWithForm>
+        <Header />
+
         <Main
           onAddPlaceClick={openAddPlacePopup}
           onEditProfileClick={openEditProfile}
@@ -154,8 +136,8 @@ function App() {
           onCardClick={handleCardClick}
           // onDeleteClick={openRemovePopup}
         />
+        <Footer />
       </CurrentUserContext.Provider>
-      <Footer />
     </>
   );
 }

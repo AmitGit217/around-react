@@ -37,6 +37,17 @@ class Api {
       method: "DELETE",
     });
   }
+
+  setUserInfo({ name, about }) {
+    return this._customFetch(`${this.baseUrl}/users/me`, {
+      headers: this.headers,
+      method: "PATCH",
+      body: JSON.stringify({
+        name,
+        about,
+      }),
+    });
+  }
 }
 export const api = new Api({
   baseUrl: "https://around.nomoreparties.co/v1/cohort-3-en",
