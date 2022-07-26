@@ -15,7 +15,10 @@ export default function Card({
   function handleClick() {
     onCardClick(card);
   }
-  function handleRemoveModal() {
+  // function handleRemoveModal() {
+  //   onDeleteClick(card);
+  // }
+  function deleteCard() {
     onDeleteClick(card);
   }
   function handleLike() {
@@ -35,7 +38,8 @@ export default function Card({
       />
       <button
         className={`card__removeButton ${showRemoveButton}`}
-        onClick={handleRemoveModal}
+        // onClick={handleRemoveModal}
+        onClick={deleteCard}
       />
       <div className="card__social-brand">
         <h2 className="card__caption">{name}</h2>

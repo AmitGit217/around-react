@@ -13,13 +13,28 @@ export default function Main(props) {
   const currentUser = useContext(CurrentUserContext);
   function handleCardLike(card) {
     const isLiked = card.likes.some((user) => user._id === currentUser._id);
-    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-      setCards((state) =>
-        state.map((currentCard) =>
-          currentCard._id === card._id ? newCard : currentCard
-        )
-      );
-    });
+    api
+      .changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((currentCard) =>
+            currentCard._id === card._id ? newCard : currentCard
+          )
+        );
+      })
+      .catch((err) => console.log(err));
+  }
+  function handleDelete(card) {
+    api
+      .deleteCard(card._id)
+      .then((res) => {
+        setCards((state) => {
+          state.filter((currentCard) => {
+            // return currentCard._id !== card._id (Any card that is not the deleted card)
+          });
+        });
+      })
+      .catch((err) => console.log(err));
   }
   useEffect(() => {
     api
@@ -66,8 +81,9 @@ export default function Main(props) {
                 name={card.name}
                 likeCounter={card.likes.length}
                 onCardClick={props.onCardClick}
-                onDeleteClick={props.onDeleteClick}
+                // onDeleteClick={props.onDeleteClick}
                 onLike={handleCardLike}
+                onDeleteClick={handleDelete}
               />
             );
           })}

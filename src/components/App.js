@@ -16,14 +16,14 @@ function App() {
     name: "",
     link: "",
   });
-  const [isRemoveCardOpen, setRemoveCardOpen] = useState(false);
+  // const [isRemoveCardOpen, setRemoveCardOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   function closeAllPopups() {
     setEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
     setIsImagePopupOpen(false);
-    setRemoveCardOpen(false);
+    // setRemoveCardOpen(false);
   }
   function openEditProfile() {
     setEditProfilePopupOpen(true);
@@ -34,10 +34,10 @@ function App() {
   function openEditAvatarPicture() {
     setEditAvatarPopupOpen(true);
   }
-  function openRemovePopup(card) {
-    setRemoveCardOpen(true);
-    return card;
-  }
+  // function openRemovePopup(card) {
+  //   setRemoveCardOpen(true);
+  //   return card;
+  // }
   function handleCardClick(card) {
     setIsImagePopupOpen(true);
     setSelectedCard({ name: card.name, link: card.link });
@@ -58,13 +58,13 @@ function App() {
         onClose={closeAllPopups}
         isOpen={isImagePopupOpen}
       />
-      <PopupWithForm
+      {/* <PopupWithForm
         name="confirm"
         title="Are you sure?"
         submitText="Yes"
         onClose={closeAllPopups}
         isOpen={isRemoveCardOpen}
-      />
+      /> */}
       <PopupWithForm
         name="editAvatar"
         title="Change profile picture"
@@ -152,7 +152,7 @@ function App() {
           onEditProfileClick={openEditProfile}
           onEditAvatarClick={openEditAvatarPicture}
           onCardClick={handleCardClick}
-          onDeleteClick={openRemovePopup}
+          // onDeleteClick={openRemovePopup}
         />
       </CurrentUserContext.Provider>
       <Footer />

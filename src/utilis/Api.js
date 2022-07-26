@@ -18,8 +18,8 @@ class Api {
       headers: this.headers,
     });
   }
-  changeLikeCardStatus(id, likeStateIsTrue) {
-    if (!likeStateIsTrue) {
+  changeLikeCardStatus(id, likeState) {
+    if (!likeState) {
       return this._customFetch(`${this.baseUrl}/cards/likes/${id}`, {
         headers: this.headers,
         method: "DELETE",
@@ -30,6 +30,12 @@ class Api {
         method: "PUT",
       });
     }
+  }
+  deleteCard(id) {
+    return this._customFetch(`${this.baseUrl}/cards/${id}`, {
+      headers: this.headers,
+      method: "DELETE",
+    });
   }
 }
 export const api = new Api({
