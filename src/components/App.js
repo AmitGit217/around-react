@@ -5,16 +5,10 @@ import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
-import CardContext from "../contexts/CardContext";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
 function App() {
-  const [currentUser, setCurrentUser] = useState({
-    name: "",
-    about: "",
-    avatar: "",
-  });
-  const [cards, setCards] = useState([]);
+  const [currentUser, setCurrentUser] = useState({});
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
@@ -52,24 +46,11 @@ function App() {
     api
       .getUserInfo()
       .then((res) => {
-        setCurrentUser(() => {
-          return {
-            name: res.name,
-            about: res.about,
-            avatar: res.avatar,
-          };
-        });
+        setCurrentUser(res);
       })
       .catch((err) => console.log(err));
   }, []);
-  useEffect(() => {
-    api
-      .getInitialCards()
-      .then((res) => {
-        setCards(res);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+
   return (
     <>
       <ImagePopup
@@ -166,15 +147,13 @@ function App() {
       </PopupWithForm>
       <Header />
       <CurrentUserContext.Provider value={currentUser}>
-        <CardContext.Provider value={cards}>
-          <Main
-            onAddPlaceClick={openAddPlacePopup}
-            onEditProfileClick={openEditProfile}
-            onEditAvatarClick={openEditAvatarPicture}
-            onCardClick={handleCardClick}
-            onDeleteClick={openRemovePopup}
-          />
-        </CardContext.Provider>
+        <Main
+          onAddPlaceClick={openAddPlacePopup}
+          onEditProfileClick={openEditProfile}
+          onEditAvatarClick={openEditAvatarPicture}
+          onCardClick={handleCardClick}
+          onDeleteClick={openRemovePopup}
+        />
       </CurrentUserContext.Provider>
       <Footer />
     </>

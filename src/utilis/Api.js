@@ -18,8 +18,20 @@ class Api {
       headers: this.headers,
     });
   }
+  changeLikeCardStatus(id, likeStateIsTrue) {
+    if (!likeStateIsTrue) {
+      return this._customFetch(`${this.baseUrl}/cards/likes/${id}`, {
+        headers: this.headers,
+        method: "DELETE",
+      });
+    } else {
+      return this._customFetch(`${this.baseUrl}/cards/likes/${id}`, {
+        headers: this.headers,
+        method: "PUT",
+      });
+    }
+  }
 }
-
 export const api = new Api({
   baseUrl: "https://around.nomoreparties.co/v1/cohort-3-en",
   headers: {

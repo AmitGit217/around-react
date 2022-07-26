@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import CurrentUserContext from "../contexts/CurrentUserContext";
+import CardContext from "../contexts/CardContext";
 
 export default function Card({
   card,
@@ -7,13 +8,18 @@ export default function Card({
   onCardClick,
   onDeleteClick,
   name,
+  onLike,
 }) {
+  const cards = useContext(CardContext);
   const currentUser = useContext(CurrentUserContext);
   function handleClick() {
     onCardClick(card);
   }
   function handleRemoveModal() {
     onDeleteClick(card);
+  }
+  function handleLike() {
+    onLike(card);
   }
   const isOwn = card.owner._id === currentUser._id;
   const showRemoveButton = isOwn ? true : `card__removeButton_hidden`;
@@ -34,7 +40,11 @@ export default function Card({
       <div className="card__social-brand">
         <h2 className="card__caption">{name}</h2>
         <div className="card__like">
-          <button className={`card__like-button ${showLike}`} type="button" />
+          <button
+            className={`card__like-button ${showLike}`}
+            type="button"
+            onClick={handleLike}
+          />
           <p className="card__like-counter">{likeCounter}</p>
         </div>
       </div>
