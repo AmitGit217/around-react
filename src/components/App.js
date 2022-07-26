@@ -7,6 +7,7 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -53,10 +54,13 @@ function App() {
   }, []);
 
   function handleUserUpdate({ name, about }) {
-    api.setUserInfo({ name, about }).then((res) => {
-      setCurrentUser(res);
-      closeAllPopups();
-    });
+    api
+      .setUserInfo({ name, about })
+      .then((res) => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -74,24 +78,10 @@ function App() {
         onClose={closeAllPopups}
         isOpen={isRemoveCardOpen}
       /> */}
-        <PopupWithForm
-          name="editAvatar"
-          title="Change profile picture"
-          submitText="Save"
+        <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
-        >
-          <label className="popup__field">
-            <input
-              className="popup__input"
-              type="url"
-              name="url-input"
-              placeholder="Image Link"
-              required
-            />
-            <span className="popup__input-error url-input-error"></span>
-          </label>
-        </PopupWithForm>
+        />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
