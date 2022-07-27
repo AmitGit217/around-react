@@ -15,6 +15,7 @@ function AddPlacePopup({ isOpen, onClose, onCardsUpdate }) {
       name: cardData.name,
       link: cardData.link,
     });
+    e.target.reset();
   }
 
   return (

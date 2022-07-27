@@ -20,14 +20,13 @@ function App() {
     name: "",
     link: "",
   });
-  // const [isRemoveCardOpen, setRemoveCardOpen] = useState(false);
+
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   function closeAllPopups() {
     setEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
     setIsImagePopupOpen(false);
-    // setRemoveCardOpen(false);
   }
   function openEditProfile() {
     setEditProfilePopupOpen(true);
@@ -38,10 +37,7 @@ function App() {
   function openEditAvatarPicture() {
     setEditAvatarPopupOpen(true);
   }
-  // function openRemovePopup(card) {
-  //   setRemoveCardOpen(true);
-  //   return card;
-  // }
+
   function handleCardClick(card) {
     setIsImagePopupOpen(true);
     setSelectedCard({ name: card.name, link: card.link });
@@ -106,10 +102,13 @@ function App() {
   }
 
   function handleCardsUpdate({ name, link }) {
-    api.addCard({ name, link }).then((res) => {
-      setCards([res, ...cards]);
-      closeAllPopups();
-    });
+    api
+      .addCard({ name, link })
+      .then((res) => {
+        setCards([res, ...cards]);
+      })
+      .then(closeAllPopups())
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -121,28 +120,25 @@ function App() {
             onClose={closeAllPopups}
             isOpen={isImagePopupOpen}
           />
-          {/* <PopupWithForm
-        name="confirm"
-        title="Are you sure?"
-        submitText="Yes"
-        onClose={closeAllPopups}
-        isOpen={isRemoveCardOpen}
-      /> */}
+
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
             onAvatarUpdate={handleAvatarUpdate}
           />
+
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
             onUserUpdate={handleUserUpdate}
           />
+
           <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
             onCardsUpdate={handleCardsUpdate}
           />
+
           <Header />
 
           <Main
@@ -152,9 +148,9 @@ function App() {
             onCardClick={handleCardClick}
             onLike={handleCardLike}
             onDeleteClick={handleDelete}
-            // onDeleteClick={openRemovePopup}
             cards={cards}
           />
+
           <Footer />
         </CardContext.Provider>
       </CurrentUserContext.Provider>

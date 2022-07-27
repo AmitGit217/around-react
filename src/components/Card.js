@@ -37,7 +37,6 @@ export default function Card({
       />
       <button
         className={`card__removeButton ${showRemoveButton}`}
-        // onClick={handleRemoveModal}
         onClick={deleteCard}
       />
       <div className="card__social-brand">

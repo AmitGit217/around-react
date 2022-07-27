@@ -4,22 +4,27 @@ import Card from "./Card";
 import { useContext } from "react";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
-export default function Main(props) {
+export default function Main({
+  onEditAvatarClick,
+  onEditProfileClick,
+  onAddPlaceClick,
+  onCardClick,
+  onDeleteClick,
+  onLike,
+  cards,
+}) {
   const { name, about, avatar } = useContext(CurrentUserContext);
 
   return (
     <main className="main">
       <section className="profile">
         <img className="profile__avatar-image" alt="profile" src={avatar} />
-        <button
-          className="profile__overlay"
-          onClick={props.onEditAvatarClick}
-        />
+        <button className="profile__overlay" onClick={onEditAvatarClick} />
         <div className="profile__info">
           <div className="profile__top-info">
             <h1 className="profile__name">{name}</h1>
             <button
-              onClick={props.onEditProfileClick}
+              onClick={onEditProfileClick}
               className="profile__edit-button"
               type="button"
               id="profilePopup__edit-button"
@@ -30,11 +35,11 @@ export default function Main(props) {
         <button
           className="profile__add-button"
           type="button"
-          onClick={props.onAddPlaceClick}
+          onClick={onAddPlaceClick}
         />
       </section>
       <section className="elements">
-        {props.cards.map((card) => {
+        {cards.map((card) => {
           return (
             <Card
               card={card}
@@ -42,9 +47,9 @@ export default function Main(props) {
               link={card.link}
               name={card.name}
               likeCounter={card.likes.length}
-              onCardClick={props.onCardClick}
-              onDeleteClick={props.onDeleteClick}
-              onLike={props.onLike}
+              onCardClick={onCardClick}
+              onDeleteClick={onDeleteClick}
+              onLike={onLike}
             />
           );
         })}
