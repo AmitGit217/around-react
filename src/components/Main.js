@@ -43,7 +43,7 @@ export default function Main(props) {
               name={card.name}
               likeCounter={card.likes.length}
               onCardClick={props.onCardClick}
-              // onDeleteClick={props.onDeleteClick}
+              onDeleteClick={props.onDeleteClick}
               onLike={props.onLike}
             />
           );

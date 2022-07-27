@@ -98,14 +98,20 @@ function App() {
     api
       .deleteCard(card._id)
       .then((res) => {
-        setCards((state) => {
-          state.filter((currentCard) => {
-            // return currentCard._id !== card._id (Any card that is not the deleted card)
-          });
-        });
+        setCards((cards) =>
+          cards.filter((cardToStay) => cardToStay._id !== card._id)
+        );
       })
       .catch((err) => console.log(err));
   }
+
+  function handleCardsUpdate({ name, link }) {
+    api.addCard({ name, link }).then((res) => {
+      setCards([res, ...cards]);
+      closeAllPopups();
+    });
+  }
+
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
@@ -135,6 +141,7 @@ function App() {
           <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
+            onCardsUpdate={handleCardsUpdate}
           />
           <Header />
 

@@ -57,6 +57,17 @@ class Api {
       }),
     });
   }
+
+  addCard({ name, link }) {
+    return this._customFetch(`${this.baseUrl}/cards`, {
+      headers: this.headers,
+      method: "POST",
+      body: JSON.stringify({
+        name,
+        link,
+      }),
+    });
+  }
 }
 export const api = new Api({
   baseUrl: "https://around.nomoreparties.co/v1/cohort-3-en",
