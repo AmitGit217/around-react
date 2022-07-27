@@ -3,13 +3,15 @@ import { api } from "../utilis/Api";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm";
+import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import CurrentUserContext from "../contexts/CurrentUserContext";
+import CardContext from "../contexts/CardContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 
 function App() {
+  const [cards, setCards] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
@@ -71,72 +73,83 @@ function App() {
       .then(closeAllPopups())
       .catch((err) => console.log(err));
   }
-
+  useEffect(() => {
+    api
+      .getInitialCards()
+      .then((res) => {
+        setCards(res);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((user) => user._id === currentUser._id);
+    api
+      .changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((currentCard) =>
+            currentCard._id === card._id ? newCard : currentCard
+          )
+        );
+      })
+      .catch((err) => console.log(err));
+  }
+  function handleDelete(card) {
+    api
+      .deleteCard(card._id)
+      .then((res) => {
+        setCards((state) => {
+          state.filter((currentCard) => {
+            // return currentCard._id !== card._id (Any card that is not the deleted card)
+          });
+        });
+      })
+      .catch((err) => console.log(err));
+  }
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
-        <ImagePopup
-          card={selectedCard}
-          onClose={closeAllPopups}
-          isOpen={isImagePopupOpen}
-        />
-        {/* <PopupWithForm
+        <CardContext.Provider value={cards}>
+          <ImagePopup
+            card={selectedCard}
+            onClose={closeAllPopups}
+            isOpen={isImagePopupOpen}
+          />
+          {/* <PopupWithForm
         name="confirm"
         title="Are you sure?"
         submitText="Yes"
         onClose={closeAllPopups}
         isOpen={isRemoveCardOpen}
       /> */}
-        <EditAvatarPopup
-          isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-          onAvatarUpdate={handleAvatarUpdate}
-        />
-        <EditProfilePopup
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}
-          onUserUpdate={handleUserUpdate}
-        />
-        <PopupWithForm
-          name="addImage"
-          title="New place"
-          submitText="Create"
-          isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}
-        >
-          <label className="popup__field">
-            <input
-              className="popup__input"
-              type="text"
-              name="caption"
-              placeholder="Title"
-              minLength="1"
-              maxLength="30"
-              required
-            />
-            <span className="popup__input-error caption-input-error"></span>
-          </label>
-          <label className="popup__field">
-            <input
-              className="popup__input"
-              type="url"
-              name="image"
-              placeholder="Image Link"
-              required
-            />
-            <span className="popup__input-error url-input-error"></span>
-          </label>
-        </PopupWithForm>
-        <Header />
+          <EditAvatarPopup
+            isOpen={isEditAvatarPopupOpen}
+            onClose={closeAllPopups}
+            onAvatarUpdate={handleAvatarUpdate}
+          />
+          <EditProfilePopup
+            isOpen={isEditProfilePopupOpen}
+            onClose={closeAllPopups}
+            onUserUpdate={handleUserUpdate}
+          />
+          <AddPlacePopup
+            isOpen={isAddPlacePopupOpen}
+            onClose={closeAllPopups}
+          />
+          <Header />
 
-        <Main
-          onAddPlaceClick={openAddPlacePopup}
-          onEditProfileClick={openEditProfile}
-          onEditAvatarClick={openEditAvatarPicture}
-          onCardClick={handleCardClick}
-          // onDeleteClick={openRemovePopup}
-        />
-        <Footer />
+          <Main
+            onAddPlaceClick={openAddPlacePopup}
+            onEditProfileClick={openEditProfile}
+            onEditAvatarClick={openEditAvatarPicture}
+            onCardClick={handleCardClick}
+            onLike={handleCardLike}
+            onDeleteClick={handleDelete}
+            // onDeleteClick={openRemovePopup}
+            cards={cards}
+          />
+          <Footer />
+        </CardContext.Provider>
       </CurrentUserContext.Provider>
     </>
   );
