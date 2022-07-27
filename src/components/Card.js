@@ -9,14 +9,11 @@ export default function Card({
   name,
   onLike,
 }) {
-  // const cards = useContext(CardContext);
   const currentUser = useContext(CurrentUserContext);
   function handleClick() {
     onCardClick(card);
   }
-  // function handleRemoveModal() {
-  //   onDeleteClick(card);
-  // }
+
   function deleteCard() {
     onDeleteClick(card);
   }

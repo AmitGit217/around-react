@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { api } from "../utilis/Api";
+import api from "../utils/Api";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
