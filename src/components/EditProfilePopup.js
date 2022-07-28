@@ -5,7 +5,7 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 function EditProfilePopup({ isOpen, onClose, onUserUpdate }) {
   const currentUser = useContext(CurrentUserContext);
   const { name, about } = currentUser;
-  const [userInfo, setUserInfo] = useState(name, about);
+  const [userInfo, setUserInfo] = useState({ name, about });
 
   function handleTextChange(e) {
     const { name, value } = e.target;
@@ -42,7 +42,7 @@ function EditProfilePopup({ isOpen, onClose, onUserUpdate }) {
           minLength={2}
           maxLength={40}
           required
-          defaultValue={name}
+          value={userInfo.name || ""}
           onChange={handleTextChange}
         />
         <span className="popup__input-error name-input-error"></span>
@@ -56,7 +56,7 @@ function EditProfilePopup({ isOpen, onClose, onUserUpdate }) {
           minLength={2}
           maxLength={200}
           required
-          defaultValue={about}
+          value={userInfo.about || ""}
           onChange={handleTextChange}
         />
         <span className="popup__input-error job-input-error"></span>
