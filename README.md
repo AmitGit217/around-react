@@ -6,23 +6,30 @@
 
 **Features**
 
-- Edit profile: name, description & photo
-- Upload an image via link with a caption
-- Deleting an image
-- Like an image
+-   Edit profile: name, description & photo
+-   Upload an image via link with a caption
+-   Deleting an image
+-   Like an image
 
 **Technologies**
 
-- React.js
-- CSS3
-- JavaScript
+-   React.js
+-   CSS3
+-   JavaScript
 
 **Implementations**
 
-- React hooks (useState, useEffect)
-- React functional components
-- ES6 Object-Oriented-Programming
-- BEM Methodology inside a component
-- Working with RESTful api
+-   React hooks (useState, useEffect, useRef, useContext)
+-   Dynamic "Global State" using React.createContext method
+-   React functional components
+-   ES6 Object-Oriented-Programming
+-   BEM Methodology inside a component
+-   Working with RESTful api
+
+**Run it in your machine**
+
+    npm install
+
+    npm run start
 
 ### - - - [Show me the project](https://amitgit217.github.io/around-react/) - - -
