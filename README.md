@@ -30,10 +30,10 @@
 
 -   Update any needed dependency
 
-    npm install
+        npm install
 
 -   Start the "react-scripts start" script
 
-    npm run start
+        npm run start
 
 ### - - - [Show me the project](https://amitgit217.github.io/around-react/) - - -
