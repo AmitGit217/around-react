@@ -26,6 +26,7 @@ function EditAvatarPopup({ isOpen, onClose, onAvatarUpdate }) {
 			<label className='popup__field'>
 				<input
 					ref={avatar}
+					defaultValue=''
 					className='popup__input'
 					type='url'
 					name='url-input'
