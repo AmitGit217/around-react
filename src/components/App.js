@@ -112,49 +112,47 @@ function App() {
   }
 
   return (
-    <>
-      <CurrentUserContext.Provider value={currentUser}>
-        <CardContext.Provider value={cards}>
-          <ImagePopup
-            card={selectedCard}
-            onClose={closeAllPopups}
-            isOpen={isImagePopupOpen}
-          />
+    <CurrentUserContext.Provider value={currentUser}>
+      <CardContext.Provider value={cards}>
+        <ImagePopup
+          card={selectedCard}
+          onClose={closeAllPopups}
+          isOpen={isImagePopupOpen}
+        />
 
-          <EditAvatarPopup
-            isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopups}
-            onAvatarUpdate={handleAvatarUpdate}
-          />
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onAvatarUpdate={handleAvatarUpdate}
+        />
 
-          <EditProfilePopup
-            isOpen={isEditProfilePopupOpen}
-            onClose={closeAllPopups}
-            onUserUpdate={handleUserUpdate}
-          />
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUserUpdate={handleUserUpdate}
+        />
 
-          <AddPlacePopup
-            isOpen={isAddPlacePopupOpen}
-            onClose={closeAllPopups}
-            onCardsUpdate={handleCardsUpdate}
-          />
+        <AddPlacePopup
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+          onCardsUpdate={handleCardsUpdate}
+        />
 
-          <Header />
+        <Header />
 
-          <Main
-            onAddPlaceClick={openAddPlacePopup}
-            onEditProfileClick={openEditProfile}
-            onEditAvatarClick={openEditAvatarPicture}
-            onCardClick={handleCardClick}
-            onLike={handleCardLike}
-            onDeleteClick={handleDelete}
-            cards={cards}
-          />
+        <Main
+          onAddPlaceClick={openAddPlacePopup}
+          onEditProfileClick={openEditProfile}
+          onEditAvatarClick={openEditAvatarPicture}
+          onCardClick={handleCardClick}
+          onLike={handleCardLike}
+          onDeleteClick={handleDelete}
+          cards={cards}
+        />
 
-          <Footer />
-        </CardContext.Provider>
-      </CurrentUserContext.Provider>
-    </>
+        <Footer />
+      </CardContext.Provider>
+    </CurrentUserContext.Provider>
   );
 }
 
