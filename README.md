@@ -29,8 +29,11 @@
 **Run it in your machine**
 
 -   Update any needed dependency
+
     npm install
+
 -   Start the "react-scripts start" script
+
     npm run start
 
 ### - - - [Show me the project](https://amitgit217.github.io/around-react/) - - -
