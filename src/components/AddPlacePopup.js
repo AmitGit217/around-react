@@ -31,8 +31,8 @@ function AddPlacePopup({ isOpen, onClose, onCardsUpdate }) {
     >
       <label className="popup__field">
         <input
-          value={cardData.name || ""}
           onChange={handleChange}
+          value={cardData.name || ""}
           className="popup__input"
           type="text"
           name="name"
