@@ -56,7 +56,6 @@ export default function Main({
                         likeCounter={card.likes.length}
                         onCardClick={onCardClick}
                         onDeleteClick={onDeleteClick}
-                        onSubmitClick={onDeleteSubmit}
                         onLike={onLike}
                     />
                 ))}

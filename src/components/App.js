@@ -23,7 +23,7 @@ function App() {
         name: "",
         link: "",
     });
-
+    const [submitText, setSubmitText] = useState("");
     const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
     function closeAllPopups() {
         setEditAvatarPopupOpen(false);
@@ -55,20 +55,26 @@ function App() {
     }, []);
 
     function handleUserUpdate({ name, about }) {
+        setSubmitText("Saving...");
         api.setUserInfo({ name, about })
-            .then((res) => {
-                setCurrentUser(res);
-                closeAllPopups();
-            })
-            .catch((err) => console.log(err));
-    }
-    function handleAvatarUpdate({ avatar }) {
-        api.updateAvatarImage({ avatar })
             .then((res) => {
                 setCurrentUser(res);
             })
             .then(closeAllPopups())
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err))
+            .finally(() => setSubmitText(""));
+    }
+    function handleAvatarUpdate({ avatar }) {
+        setSubmitText("Saving...");
+        api.updateAvatarImage({ avatar })
+            .then((res) => {
+                setCurrentUser(res);
+            })
+            .then(console.log())
+
+            .then(closeAllPopups())
+            .catch((err) => console.log(err))
+            .finally(() => setSubmitText(""));
     }
     useEffect(() => {
         api.getInitialCards()
@@ -95,23 +101,29 @@ function App() {
         setCardToRemove(card);
     }
     function handleSubmitRemove(card) {
+        setSubmitText("Saving...");
         api.deleteCard(card._id)
             .then((res) => {
                 setCards((cards) =>
                     cards.filter((cardToStay) => cardToStay._id !== card._id)
                 );
             })
+
             .then(closeAllPopups())
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err))
+            .finally(() => setSubmitText(""));
     }
 
     function handleCardsUpdate({ name, link }) {
+        setSubmitText("Saving...");
         api.addCard({ name, link })
             .then((res) => {
                 setCards([res, ...cards]);
             })
+
             .then(closeAllPopups())
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err))
+            .finally(() => setSubmitText(""));
     }
 
     return (
@@ -122,29 +134,34 @@ function App() {
                         card={selectedCard}
                         onClose={closeAllPopups}
                         isOpen={isImagePopupOpen}
+                        submitText={submitText}
                     />
                     <RemoveCardPopup
                         onClose={closeAllPopups}
                         onSubmitHandler={handleSubmitRemove}
                         isOpen={isRemovePopupOpen}
+                        submitText={submitText}
                     />
 
                     <EditAvatarPopup
                         isOpen={isEditAvatarPopupOpen}
                         onClose={closeAllPopups}
                         onAvatarUpdate={handleAvatarUpdate}
+                        submitText={submitText}
                     />
 
                     <EditProfilePopup
                         isOpen={isEditProfilePopupOpen}
                         onClose={closeAllPopups}
                         onUserUpdate={handleUserUpdate}
+                        submitText={submitText}
                     />
 
                     <AddPlacePopup
                         isOpen={isAddPlacePopupOpen}
                         onClose={closeAllPopups}
                         onCardsUpdate={handleCardsUpdate}
+                        submitText={submitText}
                     />
 
                     <Header />

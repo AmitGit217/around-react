@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import PopupWithForm from "./PopupWithForm";
 import { CardToRemoveContext } from "../contexts/CardContext";
 
-function RemoveCardPopup({ onClose, isOpen, onSubmitHandler }) {
+function RemoveCardPopup({ onClose, isOpen, onSubmitHandler, submitText }) {
     const currentCard = useContext(CardToRemoveContext);
     function handleSubmit(e) {
         e.preventDefault();
@@ -13,7 +13,7 @@ function RemoveCardPopup({ onClose, isOpen, onSubmitHandler }) {
         <PopupWithForm
             name='confirm'
             title='Are you sure?'
-            submitText='Yes'
+            submitText={submitText || "Yes"}
             onClose={onClose}
             isOpen={isOpen}
             onSubmit={handleSubmit}
