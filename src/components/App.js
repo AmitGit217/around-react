@@ -6,13 +6,14 @@ import Footer from "./Footer";
 import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import CurrentUserContext from "../contexts/CurrentUserContext";
-import CardContext from "../contexts/CardContext";
+import { CardContext, CardToRemoveContext } from "../contexts/CardContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import RemoveCardPopup from "./RemoveCardPopup";
 
 function App() {
     const [cards, setCards] = useState([]);
+    const [cardToRemove, setCardToRemove] = useState({});
     const [currentUser, setCurrentUser] = useState({});
     const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
     const [isRemovePopupOpen, setRemovePopup] = useState(false);
@@ -91,15 +92,16 @@ function App() {
 
     function handleRemovePopup(card) {
         setRemovePopup(true);
+        setCardToRemove(card);
     }
-
-    function handleDelete(card) {
+    function handleSubmitRemove(card) {
         api.deleteCard(card._id)
             .then((res) => {
                 setCards((cards) =>
                     cards.filter((cardToStay) => cardToStay._id !== card._id)
                 );
             })
+            .then(closeAllPopups())
             .catch((err) => console.log(err));
     }
 
@@ -115,47 +117,51 @@ function App() {
     return (
         <CurrentUserContext.Provider value={currentUser}>
             <CardContext.Provider value={cards}>
-                <ImagePopup
-                    card={selectedCard}
-                    onClose={closeAllPopups}
-                    isOpen={isImagePopupOpen}
-                />
-                <RemoveCardPopup
-                    onClose={closeAllPopups}
-                    isOpen={isRemovePopupOpen}
-                />
+                <CardToRemoveContext.Provider value={cardToRemove}>
+                    <ImagePopup
+                        card={selectedCard}
+                        onClose={closeAllPopups}
+                        isOpen={isImagePopupOpen}
+                    />
+                    <RemoveCardPopup
+                        onClose={closeAllPopups}
+                        onSubmitHandler={handleSubmitRemove}
+                        isOpen={isRemovePopupOpen}
+                    />
 
-                <EditAvatarPopup
-                    isOpen={isEditAvatarPopupOpen}
-                    onClose={closeAllPopups}
-                    onAvatarUpdate={handleAvatarUpdate}
-                />
+                    <EditAvatarPopup
+                        isOpen={isEditAvatarPopupOpen}
+                        onClose={closeAllPopups}
+                        onAvatarUpdate={handleAvatarUpdate}
+                    />
 
-                <EditProfilePopup
-                    isOpen={isEditProfilePopupOpen}
-                    onClose={closeAllPopups}
-                    onUserUpdate={handleUserUpdate}
-                />
+                    <EditProfilePopup
+                        isOpen={isEditProfilePopupOpen}
+                        onClose={closeAllPopups}
+                        onUserUpdate={handleUserUpdate}
+                    />
 
-                <AddPlacePopup
-                    isOpen={isAddPlacePopupOpen}
-                    onClose={closeAllPopups}
-                    onCardsUpdate={handleCardsUpdate}
-                />
+                    <AddPlacePopup
+                        isOpen={isAddPlacePopupOpen}
+                        onClose={closeAllPopups}
+                        onCardsUpdate={handleCardsUpdate}
+                    />
 
-                <Header />
+                    <Header />
 
-                <Main
-                    onAddPlaceClick={openAddPlacePopup}
-                    onEditProfileClick={openEditProfile}
-                    onEditAvatarClick={openEditAvatarPicture}
-                    onCardClick={handleCardClick}
-                    onLike={handleCardLike}
-                    onDeleteClick={handleRemovePopup}
-                    cards={cards}
-                />
+                    <Main
+                        onAddPlaceClick={openAddPlacePopup}
+                        onEditProfileClick={openEditProfile}
+                        onEditAvatarClick={openEditAvatarPicture}
+                        onCardClick={handleCardClick}
+                        onLike={handleCardLike}
+                        onDeleteClick={handleRemovePopup}
+                        onDeleteSubmit={handleSubmitRemove}
+                        cards={cards}
+                    />
 
-                <Footer />
+                    <Footer />
+                </CardToRemoveContext.Provider>
             </CardContext.Provider>
         </CurrentUserContext.Provider>
     );

@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import PopupWithForm from "./PopupWithForm";
+import { CardToRemoveContext } from "../contexts/CardContext";
 
-function RemoveCardPopup({ onClose, isOpen }) {
+function RemoveCardPopup({ onClose, isOpen, onSubmitHandler }) {
+    const currentCard = useContext(CardToRemoveContext);
     function handleSubmit(e) {
         e.preventDefault();
+        onSubmitHandler(currentCard);
     }
 
     return (
