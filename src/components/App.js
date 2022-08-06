@@ -10,7 +10,7 @@ import { CardContext, CardToRemoveContext } from "../contexts/CardContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import RemoveCardPopup from "./RemoveCardPopup";
-
+import FormValidator from "./FormValidator";
 function App() {
     const [cards, setCards] = useState([]);
     const [cardToRemove, setCardToRemove] = useState({});
