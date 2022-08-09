@@ -101,7 +101,7 @@ function App() {
         setCardToRemove(card);
     }
     function handleSubmitRemove(card) {
-        setSubmitText("Saving...");
+        setSubmitText("Deleting...");
         api.deleteCard(card._id)
             .then((res) => {
                 setCards((cards) =>
