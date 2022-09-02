@@ -44,36 +44,40 @@ function AddPlacePopup({ isOpen, onClose, onCardsUpdate, submitText }) {
                 <input
                     onChange={addCardForm.handleChange}
                     value={addCardForm.values.name}
+                    onBlur={addCardForm.handleBlur}
                     className='popup__input'
                     type='text'
                     name='name'
                     placeholder='Title'
                 />
-                {addCardForm.errors.name && (
+                {addCardForm.errors.name && addCardForm.touched.name ? (
                     <span className='popup__input-error popup__input_type_error'>
                         {addCardForm.errors.name}
                     </span>
-                )}
+                ) : null}
             </label>
             <label className='popup__field'>
                 <input
                     onChange={addCardForm.handleChange}
                     value={addCardForm.values.link}
+                    onBlur={addCardForm.handleBlur}
                     className='popup__input'
                     type='url'
                     name='link'
                     placeholder='Image Link'
                     required
                 />
-                {addCardForm.errors.link && (
+                {addCardForm.errors.link && addCardForm.touched.link ? (
                     <span className='popup__input-error popup__input_type_error'>
                         {addCardForm.errors.link}
                     </span>
-                )}
+                ) : null}
             </label>
             <button
                 className={`popup__submit ${
-                    thereIsErrors(addCardForm.errors)
+                    thereIsErrors(addCardForm.errors) ||
+                    addCardForm.values.name === "" ||
+                    addCardForm.values.link === ""
                         ? `popup__submit-button_inactive`
                         : ""
                 }`}

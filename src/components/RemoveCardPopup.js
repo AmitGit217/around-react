@@ -13,11 +13,13 @@ function RemoveCardPopup({ onClose, isOpen, onSubmitHandler, submitText }) {
         <PopupWithForm
             name='confirm'
             title='Are you sure?'
-            submitText={submitText || "Yes"}
             onClose={onClose}
             isOpen={isOpen}
-            onSubmit={handleSubmit}
-        />
+            onSubmit={handleSubmit}>
+            <button className={`popup__submit`} type='submit'>
+                {submitText || "Yes"}
+            </button>
+        </PopupWithForm>
     );
 }
 
