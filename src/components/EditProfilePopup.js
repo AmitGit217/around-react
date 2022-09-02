@@ -8,11 +8,12 @@ import thereIsErrors from "../utils/formError";
 
 function EditProfilePopup({ isOpen, onClose, onUserUpdate, submitText }) {
     const currentUser = useContext(CurrentUserContext);
-    const { name, about } = currentUser;
+    console.log(currentUser.name);
     const editProfileForm = useFormik({
+        enableReinitialize: true,
         initialValues: {
-            name,
-            about,
+            name: currentUser.name,
+            about: currentUser.about,
         },
         validationSchema: Yup.object({
             name: Yup.string()
@@ -38,17 +39,13 @@ function EditProfilePopup({ isOpen, onClose, onUserUpdate, submitText }) {
             onClose={onClose}
             onSubmit={editProfileForm.handleSubmit}
             name='editProfileText'
-            title='Edit profile'
-            submitText={submitText || "Save"}>
+            title='Edit profile'>
             <label className='popup__field'>
                 <input
                     className='popup__input'
                     name='name'
                     type='text'
                     placeholder='Full Name'
-                    minLength={2}
-                    maxLength={40}
-                    required
                     value={editProfileForm.values.name}
                     onChange={editProfileForm.handleChange}
                 />
@@ -64,9 +61,6 @@ function EditProfilePopup({ isOpen, onClose, onUserUpdate, submitText }) {
                     name='about'
                     type='text'
                     placeholder='Description'
-                    minLength={2}
-                    maxLength={200}
-                    required
                     value={editProfileForm.values.about}
                     onChange={editProfileForm.handleChange}
                 />
