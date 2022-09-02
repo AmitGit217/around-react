@@ -153,13 +153,8 @@
     font-size: 12px;
     line-height: 15px;
     color: #ff0000;
-    visibility: hidden;
-    opacity: 0;
 }
-.popup__input-error_active {
-    visibility: visible;
-    opacity: 1;
-}
+
 .popup__input_type_error {
     border-bottom-color: red;
 }

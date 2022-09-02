@@ -9,6 +9,7 @@ export default function PopupWithForm({
     name,
     children,
     onSubmit,
+    submitStateIsError,
 }) {
     return (
         <div
@@ -23,7 +24,14 @@ export default function PopupWithForm({
                 <form className='popup__form' onSubmit={onSubmit}>
                     <h2 className='popup__title'>{title}</h2>
                     {children}
-                    <button className='popup__submit' type='submit'>
+                    <button
+                        className={`popup__submit ${
+                            submitStateIsError
+                                ? `popup__submit-button_inactive`
+                                : ""
+                        }`}
+                        type='submit'
+                        disabled={submitStateIsError ? true : false}>
                         {submitText}
                     </button>
                 </form>
