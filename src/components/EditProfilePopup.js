@@ -1,34 +1,42 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import PopupWithForm from "./PopupWithForm";
 import CurrentUserContext from "../contexts/CurrentUserContext";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { REQUIRED, MIN_TWO, MAX_LENGTH } from "../lib/consts";
+import thereIsErrors from "../utils/formError";
 
 function EditProfilePopup({ isOpen, onClose, onUserUpdate, submitText }) {
     const currentUser = useContext(CurrentUserContext);
     const { name, about } = currentUser;
-    const [userInfo, setUserInfo] = useState({ name, about });
-
-    function handleTextChange(e) {
-        const { name, value } = e.target;
-        setUserInfo({ ...userInfo, [name]: value });
-    }
-
-    useEffect(() => {
-        setUserInfo({ name, about });
-    }, [name, about]);
-
-    function handleSubmit(e) {
-        e.preventDefault();
-        onUserUpdate({
-            name: userInfo.name,
-            about: userInfo.about,
-        });
-    }
+    const editProfileForm = useFormik({
+        initialValues: {
+            name,
+            about,
+        },
+        validationSchema: Yup.object({
+            name: Yup.string()
+                .required(REQUIRED)
+                .min(2, MIN_TWO)
+                .max(30, MAX_LENGTH),
+            about: Yup.string()
+                .required(REQUIRED)
+                .min(2, MIN_TWO)
+                .max(30, MAX_LENGTH),
+        }),
+        onSubmit: (values) => {
+            onUserUpdate({
+                name: values.name,
+                about: values.about,
+            });
+        },
+    });
 
     return (
         <PopupWithForm
             isOpen={isOpen}
             onClose={onClose}
-            onSubmit={handleSubmit}
+            onSubmit={editProfileForm.handleSubmit}
             name='editProfileText'
             title='Edit profile'
             submitText={submitText || "Save"}>
@@ -41,10 +49,14 @@ function EditProfilePopup({ isOpen, onClose, onUserUpdate, submitText }) {
                     minLength={2}
                     maxLength={40}
                     required
-                    value={userInfo.name || ""}
-                    onChange={handleTextChange}
+                    value={editProfileForm.values.name}
+                    onChange={editProfileForm.handleChange}
                 />
-                <span className='popup__input-error name-input-error'></span>
+                {editProfileForm.errors.name && (
+                    <span className='popup__input-error popup__input_type_error'>
+                        {editProfileForm.errors.name}
+                    </span>
+                )}
             </label>
             <label className='popup__field'>
                 <input
@@ -55,11 +67,25 @@ function EditProfilePopup({ isOpen, onClose, onUserUpdate, submitText }) {
                     minLength={2}
                     maxLength={200}
                     required
-                    value={userInfo.about || ""}
-                    onChange={handleTextChange}
+                    value={editProfileForm.values.about}
+                    onChange={editProfileForm.handleChange}
                 />
-                <span className='popup__input-error job-input-error'></span>
+                {editProfileForm.errors.about && (
+                    <span className='popup__input-error popup__input_type_error'>
+                        {editProfileForm.errors.about}
+                    </span>
+                )}
             </label>
+            <button
+                className={`popup__submit ${
+                    thereIsErrors(editProfileForm.errors)
+                        ? `popup__submit-button_inactive`
+                        : ""
+                }`}
+                type='submit'
+                disabled={thereIsErrors(editProfileForm.errors) ? true : false}>
+                {submitText || "Save"}
+            </button>
         </PopupWithForm>
     );
 }

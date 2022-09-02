@@ -9,6 +9,8 @@ import {
     MUST_BE_VALID_URL,
 } from "../lib/consts";
 
+import thereIsErrors from "../utils/formError";
+
 function AddPlacePopup({ isOpen, onClose, onCardsUpdate, submitText }) {
     const addCardForm = useFormik({
         initialValues: {
@@ -31,16 +33,10 @@ function AddPlacePopup({ isOpen, onClose, onCardsUpdate, submitText }) {
         },
     });
 
-    function thereIsErrors(obj) {
-        return Object.keys(obj).length !== 0;
-    }
-
     return (
         <PopupWithForm
             name='addImage'
             title='New place'
-            submitText={submitText || "Create"}
-            submitStateIsError={thereIsErrors(addCardForm.errors)}
             isOpen={isOpen}
             onClose={onClose}
             onSubmit={addCardForm.handleSubmit}>
@@ -75,6 +71,16 @@ function AddPlacePopup({ isOpen, onClose, onCardsUpdate, submitText }) {
                     </span>
                 )}
             </label>
+            <button
+                className={`popup__submit ${
+                    thereIsErrors(addCardForm.errors)
+                        ? `popup__submit-button_inactive`
+                        : ""
+                }`}
+                type='submit'
+                disabled={thereIsErrors(addCardForm.errors) ? true : false}>
+                {submitText || "Create"}
+            </button>
         </PopupWithForm>
     );
 }
