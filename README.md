@@ -2,7 +2,7 @@
 
 ## Overview
 
-    Responsive web application for sharing images, liking and editing a profile.
+**Responsive web application for sharing images, liking and editing a profile.**
 
 **Features**
 
@@ -19,12 +19,13 @@
 
 **Implementations**
 
--   React hooks (useState, useEffect, useRef, useContext)
+-   React hooks (useState, useEffect, useContext)
 -   Dynamic "Global State" using React.createContext method
 -   React functional components
 -   ES6 Object-Oriented-Programming
 -   BEM Methodology inside a component
 -   Working with RESTful api
+-   Front end forms validation using Formik and Yup libraries
 
 **Run it in your machine**
 
